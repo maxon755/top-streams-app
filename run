@@ -1,0 +1,102 @@
+#!/usr/bin/env bash
+
+# It is wrapper around docker-compose with some pre-defined handy shortcuts
+
+# always fail early
+set -e
+
+# docker-compose shorthand
+COMPOSE="docker-compose"
+
+API_CONTAINER='app'
+API_USER='www-data'
+
+TEST_CONTAINER='app-test'
+
+
+# Execute command in running container
+function stack_exec () {
+    local CONTAINER=$1; shift
+    local USER=$1; shift
+    (set -x; "$COMPOSE" exec --user "$USER" "$CONTAINER" "$@")
+}
+
+# Run container and execute command in it
+function stack_run () {
+    local CONTAINER=$1; shift
+    local USER=$1; shift
+
+    (set -x; "$COMPOSE" run --rm --user "$USER" --entrypoint="/bin/sh -c" "$CONTAINER" "$*")
+}
+
+function usage () {
+
+    declare -A COMMANDS=(
+        [help       ]='display this help message'
+        [install    ]="install the project"
+        [composer   ]="shortcut for composer in $API_CONTAINER container"
+        [artisan    ]="run artisan in $API_CONTAINER container"
+        [migrate    ]="migration tool"
+    )
+
+    echo "Usage: $(basename "$0") [COMMAND] [ARGUMENTS]"
+
+    for key in "${!COMMANDS[@]}";
+    do
+        printf "  %s\t%s\n" "$key" "${COMMANDS[$key]}"
+    done
+
+    exit 0
+}
+
+if [ "$#" -le 0 ]; then
+    usage
+fi
+
+# capture 1st arg which denotes command
+COMMAND=$1; shift 1
+
+# shorthand processing switch
+case $COMMAND in
+    help)
+        usage
+        ;;
+
+    install)
+        cp -n .env.example .env
+        ;;
+
+    setup)
+        $COMPOSE pull
+        $COMPOSE build
+        stack_run "$API_CONTAINER" "$API_USER" composer install --prefer-dist
+        stack_run "$API_CONTAINER" "$API_USER" php artisan key:generate
+    ;;
+
+    composer)
+        stack_run "$API_CONTAINER" "$API_USER" composer "$@" ;;
+
+    artisan)
+        stack_run "$API_CONTAINER" "$API_USER" php artisan "$@" ;;
+
+    migrate)
+        stack_run "$API_CONTAINER" "$API_USER" php artisan migrate "$@" ;;
+
+    test:migrate)
+        stack_run "$TEST_CONTAINER" "$API_USER" php artisan migrate:fresh "$@" ;;
+
+    test)
+        stack_run "$TEST_CONTAINER" "$API_USER" php artisan test --stop-on-failure "$@" ;;
+
+    "$API_CONTAINER")
+        stack_exec "$API_CONTAINER" "$API_USER" "$@" ;;
+
+    "$TEST_CONTAINER")
+        stack_exec "$TEST_CONTAINER" "$API_USER" "$@" ;;
+
+    restart)
+        $COMPOSE down && $COMPOSE up -d ;;
+
+    *)
+        $COMPOSE "$COMMAND" "$@" ;;
+esac
