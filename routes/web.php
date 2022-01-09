@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\HomeController;
+use App\Http\Controllers\StreamController;
 use App\Http\Controllers\AuthController;
 
 /*
@@ -22,18 +22,21 @@ Route::get('/redirect-to-twitch-auth', [AuthController::class, 'redirectToTwitch
 Route::get('/login-with-twitch', [AuthController::class, 'loginWithTwitch']);
 
 Route::middleware('auth')->group(function () {
-    Route::get('/', [HomeController::class, 'index'])
+    Route::get('/', [StreamController::class, 'index'])
         ->name('home');
 
-    Route::get('/streams-by-game', [HomeController::class, 'streamsByGame'])
+    Route::get('/streams-by-game', [StreamController::class, 'streamsByGame'])
         ->name('streams-by-game');
 
-    Route::get('/viewers-median', [HomeController::class, 'medianViewersCount'])
+    Route::get('/viewers-median', [StreamController::class, 'medianViewersCount'])
         ->name('viewers-median');
 
-    Route::get('/top-viewed-streams', [HomeController::class, 'topStreamsByViewerCount'])
+    Route::get('/top-viewed-streams', [StreamController::class, 'topStreamsByViewerCount'])
         ->name('top-viewed-streams');
 
-    Route::get('/streams-by-start-time', [HomeController::class, 'getStreamsByStartTime'])
+    Route::get('/streams-by-start-time', [StreamController::class, 'streamsByStartTime'])
         ->name('streams-by-start-time');
+
+    Route::get('/followed-streams', [StreamController::class, 'followedStreamsFromTop'])
+        ->name('followed-streams');
 });

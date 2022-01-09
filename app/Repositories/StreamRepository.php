@@ -86,4 +86,11 @@ class StreamRepository
             return $stream->started_at->format('Y-m-d h:i A');
         });
     }
+
+    public function getStreamsByTwitchIds(array $twitchIds): EloquentCollection
+    {
+        return Stream::query()
+            ->whereIn('twitch_id', $twitchIds)
+            ->get();
+    }
 }

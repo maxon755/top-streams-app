@@ -26,7 +26,7 @@ class AuthController extends Controller
                 'client_id'     => 'm01e4hoc1qvkerlwsqhqg4vqrsvtyk',
                 'redirect_uri'  => 'http://localhost/login-with-twitch',
                 'response_type' => 'code',
-                'scope'         => 'user:read:email',
+                'scope'         => 'user:read:email user:read:follows',
             ]);
 
         return redirect($twitchAuthUrl);

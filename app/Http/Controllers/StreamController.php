@@ -2,12 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
+use App\Services\StreamService;
+use Illuminate\Support\Facades\Auth;
 use App\Repositories\StreamRepository;
 use App\Http\Requests\GetTopStreamsByViewersCountRequest;
 
-class HomeController extends Controller
+class StreamController extends Controller
 {
-    public function __construct(private StreamRepository $streamRepository)
+    public function __construct(
+        private StreamRepository $streamRepository,
+        private StreamService $streamService
+    )
     {
     }
 
@@ -46,12 +52,24 @@ class HomeController extends Controller
         ]);
     }
 
-    public function getStreamsByStartTime()
+    public function streamsByStartTime()
     {
         $streamsGroupedByStartTime = $this->streamRepository->getStreamsGroupedByStartTime();
 
         return view('streams-by-start-time', [
             'streamsGroupedByStartTime' => $streamsGroupedByStartTime
+        ]);
+    }
+
+    public function followedStreamsFromTop()
+    {
+        /** @var User $user */
+        $user = Auth::user();
+
+        $followedStreams = $this->streamService->getUserFollowedStreamsFromTop($user);
+
+        return view('followed-streams', [
+            'streams' => $followedStreams
         ]);
     }
 }

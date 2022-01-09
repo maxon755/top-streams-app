@@ -7,6 +7,13 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
+/**
+ * @property int $id
+ * @property int $twitch_id
+ * @property string $username
+ * @property string $email
+ * @property string $twitch_access_token
+ */
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
