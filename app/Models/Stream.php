@@ -19,6 +19,6 @@ class Stream extends Model
     use HasFactory;
 
     protected $casts = [
-        'started_at' => 'date',
+        'started_at' => 'datetime',
     ];
 }

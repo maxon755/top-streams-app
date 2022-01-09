@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,4 +15,12 @@ use App\Http\Controllers\HomeController;
 |
 */
 
-Route::get('/', [HomeController::class, 'index']);
+Route::get('/login', [AuthController::class, 'login'])
+    ->name('login');
+Route::get('/redirect-to-twitch-auth', [AuthController::class, 'redirectToTwitchAuth'])
+    ->name('twitch.redirect');
+Route::get('/login-with-twitch', [AuthController::class, 'loginWithTwitch']);
+
+Route::middleware('auth')->group(function () {
+    Route::get('/', [HomeController::class, 'index']);
+});
