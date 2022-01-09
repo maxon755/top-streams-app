@@ -45,4 +45,13 @@ class HomeController extends Controller
             'streams' => $streams
         ]);
     }
+
+    public function getStreamsByStartTime()
+    {
+        $streamsGroupedByStartTime = $this->streamRepository->getStreamsGroupedByStartTime();
+
+        return view('streams-by-start-time', [
+            'streamsGroupedByStartTime' => $streamsGroupedByStartTime
+        ]);
+    }
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Repositories;
 
+use Carbon\Carbon;
 use App\Models\Stream;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Collection;
@@ -58,5 +59,31 @@ class StreamRepository
             ->get();
 
         return $streams->sortBy('viewers_count', descending: $sort === 'desc');
+    }
+
+    public function getStreamsGroupedByStartTime(): Collection
+    {
+        $streams = Stream::query()
+            ->orderByDesc('started_at')
+            ->get();
+
+        $streams = $streams->map(function (Stream $stream) {
+            /** @var Carbon $startedAt */
+            $startedAt = $stream->started_at;
+
+            if ($startedAt->minute <= 30) {
+                $startedAt->floorHour();
+            } else {
+                $startedAt->ceilHour();
+            }
+
+            $stream->started_at = $startedAt;
+
+            return $stream;
+        });
+
+        return $streams->groupBy(function (Stream $stream) {
+            return $stream->started_at->format('Y-m-d h:i A');
+        });
     }
 }

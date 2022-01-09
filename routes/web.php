@@ -33,4 +33,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/top-viewed-streams', [HomeController::class, 'topStreamsByViewerCount'])
         ->name('top-viewed-streams');
+
+    Route::get('/streams-by-start-time', [HomeController::class, 'getStreamsByStartTime'])
+        ->name('streams-by-start-time');
 });

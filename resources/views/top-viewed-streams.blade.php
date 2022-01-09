@@ -10,9 +10,10 @@
         <thead>
         <tr>
             <th>#</th>
-            <th>Chanel Name</th>
+            <th>Channel</th>
             <th>Game</th>
-            <th>Viewers Number</th>
+            <th>Viewers</th>
+            <th>Title</th>
         </tr>
         </thead>
         <tbody>
@@ -23,6 +24,7 @@
                 <td>{{$stream->channel_name}}</td>
                 <td>{{$stream->game_name}}</td>
                 <td>{{$stream->viewers_count}}</td>
+                <td>{{$stream->title}}</td>
             </tr>
 
         @endforeach
