@@ -1,4 +1,4 @@
-FROM php:8.1-fpm AS runtime
+FROM php:8.0-fpm AS runtime
 
 ARG USER_UID=33
 ARG USER_GID=33

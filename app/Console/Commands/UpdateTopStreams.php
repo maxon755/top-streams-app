@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use App\Services\StreamsUpdater\StreamsUpdater;
 
 class UpdateTopStreams extends Command
 {
@@ -11,21 +12,21 @@ class UpdateTopStreams extends Command
      *
      * @var string
      */
-    protected $signature = 'command:name';
+    protected $signature = 'streams:update';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Updates top 1000 streams from Twitch';
 
     /**
      * Create a new command instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(private StreamsUpdater $streamsUpdater)
     {
         parent::__construct();
     }
@@ -37,6 +38,8 @@ class UpdateTopStreams extends Command
      */
     public function handle()
     {
+        $this->streamsUpdater->updateStreams();
+
         return 0;
     }
 }

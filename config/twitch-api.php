@@ -29,7 +29,7 @@ return [
         /*
          * Enable caching the Access Token to minimize workload.
          */
-        'cache' => false,
+        'cache' => true,
 
         /*
         * The cache store to use for storing Client Credentials.

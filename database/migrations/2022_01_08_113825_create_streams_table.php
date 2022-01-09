@@ -15,13 +15,12 @@ class CreateStreamsTable extends Migration
     {
         Schema::create('streams', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('twitch_id');
             $table->string('channel_name');
             $table->string('title');
             $table->string('game_name');
             $table->integer('number_of_viewers');
             $table->timestamp('started_at');
-
-            $table->timestamps();
         });
     }
 
