@@ -22,5 +22,15 @@ Route::get('/redirect-to-twitch-auth', [AuthController::class, 'redirectToTwitch
 Route::get('/login-with-twitch', [AuthController::class, 'loginWithTwitch']);
 
 Route::middleware('auth')->group(function () {
-    Route::get('/', [HomeController::class, 'index']);
+    Route::get('/', [HomeController::class, 'index'])
+        ->name('home');
+
+    Route::get('/streams-by-game', [HomeController::class, 'streamsByGame'])
+        ->name('streams-by-game');
+
+    Route::get('/viewers-median', [HomeController::class, 'medianViewersCount'])
+        ->name('viewers-median');
+
+    Route::get('/top-viewed-streams', [HomeController::class, 'topStreamsByViewerCount'])
+        ->name('top-viewed-streams');
 });

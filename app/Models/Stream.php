@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $twitchId
  * @property string $title
  * @property string $game_name
- * @property int number_of_viewers
+ * @property int viewers_count
  * @property DateTimeInterface $started_at
  */
 class Stream extends Model

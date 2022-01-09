@@ -55,7 +55,7 @@ class AuthController extends Controller
 
         Auth::login($user);
 
-        return redirect('/');
+        return redirect(route('home'));
     }
 
     private function getTwitchAccessToken(string $authorizationCode, array $scopes): ?string

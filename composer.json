@@ -11,7 +11,9 @@
         "laravel/framework": "^8.75",
         "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5",
-        "romanzipp/laravel-twitch": "^4.3"
+        "laravel/ui": "^3.4",
+        "romanzipp/laravel-twitch": "^4.3",
+        "ext-pdo": "*"
     },
     "require-dev": {
         "facade/ignition": "^2.5",

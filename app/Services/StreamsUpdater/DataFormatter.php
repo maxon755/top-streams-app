@@ -22,7 +22,7 @@ class DataFormatter
                 'channel_name' => $stream->user_name,
                 'title' => $stream->title,
                 'game_name' => $stream->game_name,
-                'number_of_viewers' => $stream->viewer_count,
+                'viewers_count' => $stream->viewer_count,
                 'started_at' => $startedAt,
             ];
         }, $streamsData);

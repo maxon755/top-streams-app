@@ -19,7 +19,7 @@ class CreateStreamsTable extends Migration
             $table->string('channel_name');
             $table->string('title');
             $table->string('game_name');
-            $table->integer('number_of_viewers');
+            $table->integer('viewers_count');
             $table->timestamp('started_at');
         });
     }
