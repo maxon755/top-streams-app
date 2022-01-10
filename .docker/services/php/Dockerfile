@@ -47,3 +47,20 @@ RUN install -o www-data -g www-data -d /var/www/.composer
 ENV PATH="$PATH":/var/www/html/vendor/bin
 
 USER www-data
+
+# ------------------------------------------------------------------------------
+FROM development as installer
+
+USER root
+
+ADD --chown=www-data . /var/www/html
+RUN composer install --prefer-dist
+
+RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
+
+USER www-data
+
+# ------------------------------------------------------------------------------
+FROM runtime as production
+
+COPY --from=installer /var/www/html .
