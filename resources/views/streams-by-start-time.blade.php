@@ -5,29 +5,16 @@
         <thead>
         <tr>
             <th>Started At</th>
-            <th>Game</th>
-            <th>Viewers</th>
-            <th>Title</th>
-            <th>Channel</th>
+            <th>Stream Count</th>
         </tr>
         </thead>
         <tbody>
 
-        @foreach ($streamsGroupedByStartTime as $startedAt => $streams)
+        @foreach ($streamCountByStartTime as $startedAt => $streamCount)
             <tr>
                 <td>{{$startedAt}}</td>
-                <td></td>
+                <td style="text-align:center">{{$streamCount}}</td>
             </tr>
-
-            @foreach ($streams as $stream)
-                <tr>
-                    <td></td>
-                    <td>{{$stream->game_name}}</td>
-                    <td>{{$stream->viewers_count}}</td>
-                    <td>{{$stream->title}}</td>
-                    <td>{{$stream->channel_name}}</td>
-                </tr>
-            @endforeach
         @endforeach
         </tbody>
     </table>

@@ -60,13 +60,13 @@ class StreamRepository
         return $streams->sortBy('viewers_count', descending: $sort === 'desc');
     }
 
-    public function getStreamsGroupedByStartTime(): Collection
+    public function getStreamCountByStartTime(): Collection
     {
         $streams = Stream::query()
             ->orderByDesc('started_at')
             ->get();
 
-        $streams = $streams->map(function (Stream $stream) {
+        return $streams->countBy(function (Stream $stream) {
             /** @var Carbon $startedAt */
             $startedAt = $stream->started_at;
 
@@ -76,13 +76,7 @@ class StreamRepository
                 $startedAt->ceilHour();
             }
 
-            $stream->started_at = $startedAt;
-
-            return $stream;
-        });
-
-        return $streams->groupBy(function (Stream $stream) {
-            return $stream->started_at->format('Y-m-d h:i A');
+            return $startedAt->format('Y-m-d h:i A');
         });
     }
 

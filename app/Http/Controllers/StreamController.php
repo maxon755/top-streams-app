@@ -62,10 +62,10 @@ class StreamController extends Controller
 
     public function streamsByStartTime()
     {
-        $streamsGroupedByStartTime = $this->streamRepository->getStreamsGroupedByStartTime();
+        $streamCountByStartTime = $this->streamRepository->getStreamCountByStartTime();
 
         return view('streams-by-start-time', [
-            'streamsGroupedByStartTime' => $streamsGroupedByStartTime
+            'streamCountByStartTime' => $streamCountByStartTime
         ]);
     }
 
