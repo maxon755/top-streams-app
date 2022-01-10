@@ -42,4 +42,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/followed-streams', [StreamController::class, 'followedStreamsFromTop'])
         ->name('followed-streams');
+
+    Route::get('/viewers-gap', [StreamController::class, 'viewersGap'])
+        ->name('viewers-gap');
 });

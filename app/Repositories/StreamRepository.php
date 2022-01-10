@@ -92,4 +92,9 @@ class StreamRepository
             ->whereIn('twitch_id', $twitchIds)
             ->get();
     }
+
+    public function getLowestViewersCount(): ?int
+    {
+        return Stream::min('viewers_count');
+    }
 }

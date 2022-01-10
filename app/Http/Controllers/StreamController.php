@@ -26,7 +26,6 @@ class StreamController extends Controller
     {
         $streamsByGame = $this->streamRepository->getStreamCountGroupedByName();
 
-
         return view('streams-count-by-game', [
             'streamsByGame' => $streamsByGame
         ]);
@@ -79,6 +78,18 @@ class StreamController extends Controller
 
         return view('followed-streams', [
             'streams' => $followedStreams
+        ]);
+    }
+
+    public function viewersGap()
+    {
+        /** @var User $user */
+        $user = Auth::user();
+
+        $viewersGap = $this->streamService->getViewersGapBetweenLowestUserStreamAndLowestTopStream($user);
+
+        return view('viewers-gap', [
+            'viewersGap' => $viewersGap
         ]);
     }
 }
