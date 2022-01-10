@@ -23,8 +23,8 @@ class AuthController extends Controller
     public function redirectToTwitchAuth()
     {
         $twitchAuthUrl = 'https://id.twitch.tv/oauth2/authorize?' . http_build_query([
-                'client_id'     => 'm01e4hoc1qvkerlwsqhqg4vqrsvtyk',
-                'redirect_uri'  => 'http://localhost/login-with-twitch',
+                'client_id'     => config('twitch-api.client_id'),
+                'redirect_uri'  => config('twitch-api.redirect_url'),
                 'response_type' => 'code',
                 'scope'         => 'user:read:email user:read:follows',
             ]);
