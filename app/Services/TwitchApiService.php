@@ -18,6 +18,10 @@ class TwitchApiService
             'user_id' => $userTwitchId
         ]);
 
+        if ($response->getStatus() !== 200) {
+            return [];
+        }
+
         return $response->data();
     }
 }

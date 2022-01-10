@@ -58,7 +58,7 @@ class AuthController extends Controller
         return redirect(route('home'));
     }
 
-    private function getTwitchAccessToken(string $authorizationCode, array $scopes): ?string
+    private function getTwitchAccessToken(?string $authorizationCode, ?array $scopes): ?string
     {
         $tokenResponse = $this->twitchClient->getOAuthToken(
             $authorizationCode,
@@ -67,7 +67,7 @@ class AuthController extends Controller
         );
 
         if ($tokenResponse->getStatus() !== 200) {
-            return 'You should login via Twitch to use the app';
+            return null;
         }
 
         return $tokenResponse->data()->access_token;
