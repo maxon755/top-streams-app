@@ -13,7 +13,7 @@ class StreamService
 {
     public function __construct(
         private TwitchApiService $twitchApiService,
-        private StreamRepository $streamRepository
+        private StreamRepository $streamRepository,
     )
     {
     }

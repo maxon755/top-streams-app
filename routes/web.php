@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\TagController;
 use App\Http\Controllers\StreamController;
 use App\Http\Controllers\AuthController;
 
@@ -45,4 +46,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/viewers-gap', [StreamController::class, 'viewersGap'])
         ->name('viewers-gap');
+
+    Route::get('/shared-tags', [TagController::class, 'sharedTags'])
+        ->name('shared-tags');
 });
