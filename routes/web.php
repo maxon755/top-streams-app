@@ -25,8 +25,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/', [StreamController::class, 'index'])
         ->name('home');
 
-    Route::get('/streams-by-game', [StreamController::class, 'streamsByGame'])
-        ->name('streams-by-game');
+    Route::get('/streams-count-by-game', [StreamController::class, 'streamsCountByGame'])
+        ->name('streams-count-by-game');
+
+    Route::get('/most-viewed-streams-by-game', [StreamController::class, 'mostViewedStreamsByGame'])
+        ->name('most-viewed-streams-by-game');
 
     Route::get('/viewers-median', [StreamController::class, 'medianViewersCount'])
         ->name('viewers-median');

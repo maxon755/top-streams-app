@@ -22,13 +22,22 @@ class StreamController extends Controller
         return view('home');
     }
 
-    public function streamsByGame()
+    public function streamsCountByGame()
     {
         $streamsByGame = $this->streamRepository->getStreamCountGroupedByName();
 
 
-        return view('streams-by-game', [
+        return view('streams-count-by-game', [
             'streamsByGame' => $streamsByGame
+        ]);
+    }
+
+    public function mostViewedStreamsByGame()
+    {
+        $mostViewedStreams = $this->streamRepository->getMostViewedStreamsByGame();
+
+        return view('most-viewed-streams-by-game', [
+            'streams' => $mostViewedStreams
         ]);
     }
 

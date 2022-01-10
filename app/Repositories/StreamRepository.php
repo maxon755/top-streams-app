@@ -22,6 +22,23 @@ class StreamRepository
             ->get();
     }
 
+    public function getMostViewedStreamsByGame(): Collection
+    {
+        $streams = Stream::query()
+            ->where('game_name', '!=', '')
+            ->orderBy('game_name')
+            ->get();
+
+        $streamsGroupedByGame = $streams->groupBy('game_name');
+
+        return $streamsGroupedByGame->map(function (Collection $group) {
+            return $group->firstWhere(
+                'viewers_count',
+                $group->max('viewers_count')
+            );
+        });
+    }
+
     public function getMedianViewersCount(): int
     {
         $rows = DB::table((new Stream())->getTable())
@@ -30,25 +47,7 @@ class StreamRepository
                 ->orderBy('viewers_count')
                 ->get();
 
-        $rowCount = count($rows);
-
-        if (!$rowCount) {
-            return 0;
-        }
-
-        if ($rowCount % 2 === 0) {
-            $index = $rowCount / 2;
-            $topMedianBound = $rows[$index]->viewers_count;
-            $bottomMedianBound = $rows[$index - 1]->viewers_count;
-
-            $median = (int) (($topMedianBound + $bottomMedianBound) / 2);
-
-        } else {
-            $index = (int) floor($rowCount / 2);
-            $median = $rows[$index]->viewers_count;
-        }
-
-        return $median;
+        return (int) $rows->median('viewers_count');
     }
 
     public function getTopStreamsByViewersCount(?string $sort = 'desc'): EloquentCollection
