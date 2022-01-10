@@ -40,6 +40,8 @@ class UpdateTopStreams extends Command
     {
         $this->streamsUpdater->updateStreams();
 
+        $this->line('TOP 1000 streams where updated');
+
         return 0;
     }
 }

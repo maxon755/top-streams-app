@@ -1,5 +1,16 @@
 version: '3.4'
 
+x-app: &app-common
+  build:
+    context: .
+    dockerfile: .docker/services/php/Dockerfile
+    target: development
+    args:
+      - USER_UID=${USER_UID:-1000}
+      - USER_GID=${USER_GID:-1000}
+  volumes:
+    - .:/var/www/html
+
 services:
   web-server:
     build:
@@ -15,17 +26,20 @@ services:
       - ./.docker/services/nginx/config/default.conf:/etc/nginx/conf.d/default.conf
 
   app:
-    build:
-      context: .
-      dockerfile: .docker/services/php/Dockerfile
-      target: development
-      args:
-        - USER_UID=${USER_UID:-1000}
-        - USER_GID=${USER_GID:-1000}
+    <<: *app-common
+    environment:
+      CONTAINER_ROLE: "app"
     env_file:
-        - .env
-    volumes:
-      - .:/var/www/html
+      - .env
+    depends_on:
+      - mysql
+
+  scheduler:
+    <<: *app-common
+    environment:
+      CONTAINER_ROLE: "scheduler"
+    env_file:
+      - .env
     depends_on:
       - mysql
 
