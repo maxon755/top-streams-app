@@ -50,7 +50,7 @@ class StreamRepository
         return (int) $rows->median('viewers_count');
     }
 
-    public function getTopStreamsByViewersCount(?string $sort = 'desc'): EloquentCollection
+    public function getTopStreamsByViewersCount(string $sort): EloquentCollection
     {
         $streams = Stream::query()
             ->orderByDesc('viewers_count')

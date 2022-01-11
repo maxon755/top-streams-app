@@ -51,7 +51,7 @@ class StreamController extends Controller
 
     public function topStreamsByViewerCount(GetTopStreamsByViewersCountRequest $request)
     {
-        $sort = $request->get('sort');
+        $sort = $request->get('sort', 'desc');
 
         $streams = $this->streamRepository->getTopStreamsByViewersCount($sort);
 
